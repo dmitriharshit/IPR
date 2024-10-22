@@ -11,15 +11,19 @@ This paper has been accpected by **CVPR2022**. In this short tutorial, we will g
 - *CUDA 9.1*
 - *pytorch 1.7.1*
 
+run ``` pip install requirements.txt ```
+
+
 ## Datasets
 
-download the processed [Dataset](https://drive.google.com/file/d/1IoMJ7a0LidpMywXDmfJa3m8oifGHkq8O/view?usp=sharing) and unzip it into `datasets/`.
+download the processed [Dataset](https://drive.google.com/drive/folders/1wAhW3AUIy0lMjJmUYQHcKuDriUXoVYeO?usp=sharing).
 
 ### Training phase
+    ``` 
+    python3 train.py --dataroot path/to/the/datasets/icvl/train --name experiment_name 
+
+    eg - python3 train.py --dataroot datasets/CSS_13S2C/ICVL --name experiment_name 
     ```
-    python train.py --dataroot path/to/the/datasets/icvl/train --name experiment_name
-    ```
-    eg - ```python train.py --dataroot datasets/CSS_13S2C/ICVL --name experiment_name ```
  On training image outputs and model are stored in `checkpoints/experiment_name`, if you have multi GPUs, using `--gpu_ids 0` to specify the gpu you want to use.
 
 
@@ -28,7 +32,9 @@ download the processed [Dataset](https://drive.google.com/file/d/1IoMJ7a0LidpMyw
 
  After the training step, or download the pretrained model and put them in `checkpoints/experiment_name` folder. Run the following command to translate NIR images to RGB images:
     ``` 
-    python test.py --dataroot path/to/the/datasets/icvl/test --name experiment_name 
+    python3 test.py --dataroot path/to/the/datasets/icvl/test --name experiment_name 
+
+    eg - python3 test.py --dataroot datasets/CSS_13S2C/ICVL --name experiment_name 
     ```
 
 The results are stored in `results/experiment_name` folder. 
@@ -37,6 +43,6 @@ The results are stored in `results/experiment_name` folder.
 
 Run the following command to see the results of RVM with 3 cameras:
     ```
-    python util/rvm.py
+    python3 util/rvm.py
     ```
     
