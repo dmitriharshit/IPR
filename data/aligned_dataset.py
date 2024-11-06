@@ -32,6 +32,9 @@ class AlignedDataset(BaseDataset):
         self.input_nc = self.opt.output_nc if self.opt.direction == 'BtoA' else self.opt.input_nc
         self.output_nc = self.opt.input_nc if self.opt.direction == 'BtoA' else self.opt.output_nc
 
+        self.transform = transform.Compose([transform.ToTensor(), transform.Normalize(mean=[0.5],std=[0.5])])
+
+
     def __getitem__(self, index):
         #输出的是一个14的tensor
         global B, B_transform
@@ -59,7 +62,14 @@ class AlignedDataset(BaseDataset):
 
         A = torch.stack(lisA,0)
         B = B_transform(B)
+        B = self.brightness_normalization(B)
         return {'A':A, 'B': B, 'A_paths': self.AB_paths[index], 'B_paths': self.AB_paths[index]}
+
+    def brightness_normalization(self, image):
+        mean = torch.mean(image)
+        std = torch.std(image)
+        normalized_image = (image - mean)/std
+        return normalized_image
 
     def __len__(self):
         """Return the total number of images in the dataset."""
