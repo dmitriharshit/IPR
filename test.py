@@ -26,12 +26,16 @@ See options/base_options.py and options/test_options.py for more test options.
 See training and test tips at: https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/tips.md
 See frequently asked questions at: https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/qa.md
 """
+from skimage.metrics import peak_signal_noise_ratio as psnr
+from skimage.metrics import mean_squared_error as mse
+import numpy as np
 import os
 from options.test_options import TestOptions
 from data import create_dataset
 from models import create_model
 from util.visualizer import save_images
 from util import html
+
 
 
 if __name__ == '__main__':
@@ -63,6 +67,24 @@ if __name__ == '__main__':
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         img_path = model.get_image_paths()     # get image paths
+        
+        print(visuals.keys())
+        
+        print("Shape of predicted_image (fake_B):", visuals['fake_B'].shape)
+        print("Shape of ground_truth_image (real_B):", visuals['real_B'].shape)
+
+
+        predicted_image = visuals['fake_B'].squeeze(0).cpu().numpy().transpose(1,2,0)
+        ground_truth_image = visuals['real_B'].squeeze(0).cpu().numpy().transpose(1,2,0)
+
+        predicted_image = (predicted_image*255).astype(np.uint8)
+        ground_truth_image = (ground_truth_image*255).astype(np.uint8)
+
+        psnr_value = psnr(ground_truth_image, predicted_image, data_range = 255)
+        rmse_value = np.sqrt(mse(ground_truth_image, predicted_image))
+
+        print(f'Image {i}: PSNR = {psnr_value:.2f}, RMSE = {rmse_value:.2f}')
+
         if i % 5 == 0:  # save images to an HTML file
             print('processing (%04d)-th image... %s' % (i, img_path))
         save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
