@@ -22,7 +22,7 @@ download the processed [Dataset](https://drive.google.com/drive/folders/1wAhW3AU
     ``` 
     python3 train.py --dataroot path/to/the/datasets/icvl/train --name experiment_name 
 
-    eg - python3 train.py --dataroot datasets/CSS_13S2C/ICVL --name experiment_name 
+    eg - python3 train.py --dataroot Dataset/CSS_13S2C/ICVL --name experiment_name 
     ```
  On training image outputs and model are stored in `checkpoints/experiment_name`, if you have multi GPUs, using `--gpu_ids 0` to specify the gpu you want to use.
 
@@ -34,7 +34,7 @@ download the processed [Dataset](https://drive.google.com/drive/folders/1wAhW3AU
     ``` 
     python3 test.py --dataroot path/to/the/datasets/icvl/test --name experiment_name 
 
-    eg - python3 test.py --dataroot datasets/CSS_13S2C/ICVL --name experiment_name 
+    eg - python3 test.py --dataroot Dataset/CSS_13S2C/ICVL --name experiment_name 
     ```
 
 The results are stored in `results/experiment_name` folder. 
