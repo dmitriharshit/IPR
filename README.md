@@ -31,6 +31,7 @@ download the processed [Dataset](https://drive.google.com/drive/folders/1wAhW3AU
 
 
  After the training step, or download the pretrained model and put them in `checkpoints/experiment_name` folder. Run the following command to translate NIR images to RGB images:
+ 
     ``` 
     python3 test.py --dataroot path/to/the/datasets/icvl/test --name experiment_name 
 
